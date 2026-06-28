@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book a Free In-Home Estimate — Elegant Surfaces</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --charcoal: #1e1e1e; --mid: #555; --muted: #999; --border: #e8e6e1; --radius: 10px; }
+    html, body { margin: 0; padding: 0; background: #fff; }
+    body { font-family: 'Poppins', sans-serif; background: #fff; display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem 3rem; color: var(--charcoal); }
+
+    .brand-header { text-align: center; margin-bottom: 1.75rem; }
+    .brand-name { font-family: 'Poppins', sans-serif; font-size: 10px; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+    .page-title { font-family: 'Cinzel', serif; font-size: 20px; font-weight: 400; color: var(--charcoal); letter-spacing: 0.05em; }
+    .page-subtitle { font-family: 'Poppins', sans-serif; font-size: 12px; font-weight: 300; color: var(--muted); margin-top: 6px; }
+
+    .card { background: #fff; border-radius: 14px; border: 1px solid var(--border); padding: 1.75rem; width: 100%; max-width: 460px; box-shadow: 0 1px 12px rgba(0,0,0,0.05); }
+
+    .progress-wrap { margin-bottom: 1.75rem; }
+    .progress-label { display: flex; justify-content: space-between; font-size: 10px; font-weight: 400; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+    .progress-bar { height: 2px; background: var(--border); border-radius: 1px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--charcoal); border-radius: 1px; transition: width 0.4s ease; }
+
+    .step { display: none; }
+    .step.active { display: block; }
+
+    .step-question { font-family: 'Cinzel', serif; font-size: 16px; font-weight: 400; color: var(--charcoal); margin-bottom: 4px; letter-spacing: 0.03em; }
+    .step-hint { font-family: 'Poppins', sans-serif; font-size: 12px; font-weight: 300; color: var(--muted); margin-bottom: 1.25rem; line-height: 1.6; }
+
+    .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 1.25rem; }
+    .options-grid.three { grid-template-columns: 1fr 1fr 1fr; }
+
+    .option-card { border: 1px solid var(--border); border-radius: var(--radius); padding: 0.875rem 1rem; cursor: pointer; transition: all 0.15s; text-align: center; user-select: none; }
+    .option-card:hover { border-color: var(--charcoal); }
+    .option-card.selected { border-color: var(--charcoal); background: var(--charcoal); color: #fff; }
+    .option-title { font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 500; }
+
+    .check-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 1.25rem; }
+    .check-grid.two { grid-template-columns: 1fr 1fr; }
+    .check-card { border: 1px solid var(--border); border-radius: var(--radius); padding: 0.75rem 0.5rem; cursor: pointer; transition: all 0.15s; text-align: center; user-select: none; font-family: 'Poppins', sans-serif; font-size: 12px; font-weight: 400; color: var(--charcoal); }
+    .check-card:hover { border-color: var(--charcoal); }
+    .check-card.checked { border-color: var(--charcoal); background: var(--charcoal); color: #fff; }
+    .check-sub { font-size: 10px; font-weight: 300; color: var(--muted); margin-top: 2px; }
+    .check-card.checked .check-sub { color: #aaa; }
+
+    .section-label { font-family: 'Poppins', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+
+    .form-field { margin-bottom: 0.875rem; }
+    .form-field label { display: block; font-family: 'Poppins', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); margin-bottom: 5px; }
+    .form-field input { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; font-family: 'Poppins', sans-serif; color: var(--charcoal); outline: none; background: #fff; transition: border-color 0.15s; font-weight: 300; }
+    .form-field input:focus { border-color: var(--charcoal); }
+
+    .other-field { display: none; margin-bottom: 1.25rem; }
+
+    .btn-next { width: 100%; padding: 12px; background: #fff; color: var(--charcoal); border: 1px solid #c8b99a; border-radius: var(--radius); font-size: 11px; font-weight: 500; letter-spacing: 0.1em; cursor: pointer; font-family: 'Poppins', sans-serif; transition: opacity 0.15s; text-transform: uppercase; }
+    .btn-next:hover { background: #f9f6f1; border-color: #b0997a; }
+    .btn-next:disabled { opacity: 0.4; cursor: not-allowed; border-color: #e0deda; color: var(--muted); }
+    .btn-back { width: 100%; padding: 11px; background: transparent; color: var(--muted); border: 1px solid var(--border); border-radius: var(--radius); font-size: 11px; font-family: 'Poppins', sans-serif; cursor: pointer; margin-top: 0.625rem; transition: background 0.15s; letter-spacing: 0.06em; text-transform: uppercase; }
+    .btn-back:hover { background: #f9f8f6; }
+
+    .summary-box { border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1.5rem; }
+    .summary-title { font-family: 'Poppins', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+    .summary-row { display: flex; justify-content: space-between; font-family: 'Poppins', sans-serif; font-size: 12px; padding: 7px 0; border-bottom: 1px solid var(--border); font-weight: 300; color: var(--mid); gap: 1rem; }
+    .summary-row:last-child { border-bottom: none; }
+    .summary-row strong { color: var(--charcoal); font-weight: 500; text-align: right; }
+
+    .success-screen { text-align: center; padding: 0.5rem 0; }
+    .success-icon { width: 48px; height: 48px; border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem; }
+    .success-icon svg { width: 22px; height: 22px; stroke: var(--charcoal); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .success-title { font-family: 'Cinzel', serif; font-size: 18px; font-weight: 400; margin-bottom: 10px; letter-spacing: 0.03em; }
+    .success-sub { font-family: 'Poppins', sans-serif; font-size: 12px; color: var(--muted); line-height: 1.8; font-weight: 300; }
+    .disclaimer { font-family: 'Poppins', sans-serif; font-size: 10px; color: var(--muted); text-align: center; margin-top: 1rem; line-height: 1.6; font-weight: 300; }
+  </style>
+</head>
+<body>
+
+<div class="brand-header">
+  <div class="brand-name">Elegant Surfaces</div>
+  <div class="page-title">Book a Free In-Home Estimate</div>
+  <div class="page-subtitle">We come to you — no obligation, no pressure</div>
+</div>
+
+<div class="card">
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span id="step-label">Step 1 of 4</span>
+      <span id="step-pct">0%</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+  </div>
+
+  <!-- Step 1: Project type -->
+  <div class="step active" id="step-1">
+    <div class="step-question">What are you looking to update?</div>
+    <div class="step-hint">Select the space you have in mind.</div>
+    <div class="options-grid three">
+      <div class="option-card" onclick="selectOption(this,'project','Kitchen')"><div class="option-title">Kitchen</div></div>
+      <div class="option-card" onclick="selectOption(this,'project','Bathroom')"><div class="option-title">Bathroom</div></div>
+      <div class="option-card" onclick="selectOption(this,'project','Other');showOther()"><div class="option-title">Other</div></div>
+    </div>
+    <div class="other-field" id="other-field">
+      <div class="form-field">
+        <label for="other-specify">Please specify</label>
+        <input type="text" id="other-specify" placeholder="e.g. Laundry room, bar, office..." oninput="answers.projectOther = this.value" />
+      </div>
+    </div>
+    <button class="btn-next" id="next-1" onclick="goTo(2)" disabled>Continue</button>
+  </div>
+
+  <!-- Step 2: Contact info -->
+  <div class="step" id="step-2">
+    <div class="step-question">Where should we come?</div>
+    <div class="step-hint">We'll use this to confirm your appointment.</div>
+    <div class="form-field">
+      <label for="f-name">Your name</label>
+      <input type="text" id="f-name" placeholder="Sarah Johnson" oninput="validateContact()" />
+    </div>
+    <div class="form-field">
+      <label for="f-phone">Phone number</label>
+      <input type="tel" id="f-phone" placeholder="651-555-0100" oninput="validateContact()" />
+    </div>
+    <div class="form-field">
+      <label for="f-address">Home address</label>
+      <input type="text" id="f-address" placeholder="123 Main St, Woodbury, MN" oninput="validateContact()" />
+    </div>
+    <button class="btn-next" id="next-2" onclick="goTo(3)" disabled>Continue</button>
+    <button class="btn-back" onclick="goTo(1)">Back</button>
+  </div>
+
+  <!-- Step 3: Availability -->
+  <div class="step" id="step-3">
+    <div class="step-question">When works best for you?</div>
+    <div class="step-hint">Select at least one day and one time — we'll confirm the exact appointment.</div>
+    <div class="section-label">Preferred days</div>
+    <div class="check-grid">
+      <div class="check-card" onclick="toggleCheck(this,'days','Monday')">Mon</div>
+      <div class="check-card" onclick="toggleCheck(this,'days','Tuesday')">Tue</div>
+      <div class="check-card" onclick="toggleCheck(this,'days','Wednesday')">Wed</div>
+      <div class="check-card" onclick="toggleCheck(this,'days','Thursday')">Thu</div>
+      <div class="check-card" onclick="toggleCheck(this,'days','Friday')">Fri</div>
+      <div class="check-card" onclick="toggleCheck(this,'days','Saturday')">Sat</div>
+    </div>
+    <div class="section-label">Preferred time</div>
+    <div class="check-grid two">
+      <div class="check-card" onclick="toggleCheck(this,'times','Morning (8am–12pm)')">Morning<div class="check-sub">8am – 12pm</div></div>
+      <div class="check-card" onclick="toggleCheck(this,'times','Afternoon (12pm–5pm)')">Afternoon<div class="check-sub">12pm – 5pm</div></div>
+    </div>
+    <button class="btn-next" id="next-3" onclick="goTo(4)" disabled>Review & Confirm</button>
+    <button class="btn-back" onclick="goTo(2)">Back</button>
+  </div>
+
+  <!-- Step 4: Review & submit -->
+  <div class="step" id="step-4">
+    <div class="step-question">Looks good?</div>
+    <div class="step-hint">Review your details then confirm your request.</div>
+    <div class="summary-box" id="summary"></div>
+    <form id="booking-form" action="https://formspree.io/f/xkolbdqq" method="POST" onsubmit="handleSubmit(event)">
+      <input type="hidden" name="Type" value="In-Home Estimate Request" />
+      <input type="hidden" name="Project" id="b-project" />
+      <input type="hidden" name="Name" id="b-name" />
+      <input type="hidden" name="Phone" id="b-phone" />
+      <input type="hidden" name="Address" id="b-address" />
+      <input type="hidden" name="Preferred Days" id="b-days" />
+      <input type="hidden" name="Preferred Times" id="b-times" />
+      <button type="submit" class="btn-next">Confirm My Estimate</button>
+    </form>
+    <div class="disclaimer">We'll call or text to confirm your exact appointment time within 1 business day.</div>
+    <button class="btn-back" onclick="goTo(3)">Back</button>
+  </div>
+
+  <!-- Success -->
+  <div class="step" id="step-success">
+    <div class="success-screen">
+      <div class="success-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="success-title">You're all set, <span id="success-name"></span>.</div>
+      <div class="success-sub">Your estimate request has been received. We'll call or text within 1 business day to confirm your appointment.<br><br>Questions? Call us at <strong>(651) 321-2289</strong></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const TOTAL_STEPS = 4;
+  let currentStep = 1;
+  const answers = { project: null, projectOther: '', days: [], times: [] };
+
+  function selectOption(el, key, value) {
+    el.parentElement.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    answers[key] = value;
+    if (key === 'project' && value !== 'Other') document.getElementById('other-field').style.display = 'none';
+    const nextBtn = document.getElementById('next-' + currentStep);
+    if (nextBtn) nextBtn.disabled = false;
+  }
+
+  function showOther() { document.getElementById('other-field').style.display = 'block'; }
+
+  function toggleCheck(el, key, value) {
+    el.classList.toggle('checked');
+    if (el.classList.contains('checked')) { if (!answers[key].includes(value)) answers[key].push(value); }
+    else { answers[key] = answers[key].filter(v => v !== value); }
+    document.getElementById('next-3').disabled = answers.days.length === 0 || answers.times.length === 0;
+  }
+
+  function validateContact() {
+    const name = document.getElementById('f-name').value.trim();
+    const phone = document.getElementById('f-phone').value.trim();
+    const address = document.getElementById('f-address').value.trim();
+    document.getElementById('next-2').disabled = !(name && phone && address);
+  }
+
+  function buildSummary() {
+    const name = document.getElementById('f-name').value;
+    const phone = document.getElementById('f-phone').value;
+    const address = document.getElementById('f-address').value;
+    const project = answers.project === 'Other' && answers.projectOther ? 'Other: ' + answers.projectOther : answers.project;
+    document.getElementById('b-project').value = project;
+    document.getElementById('b-name').value = name;
+    document.getElementById('b-phone').value = phone;
+    document.getElementById('b-address').value = address;
+    document.getElementById('b-days').value = answers.days.join(', ');
+    document.getElementById('b-times').value = answers.times.join(', ');
+    const rows = [
+      { label: 'Name', value: name },
+      { label: 'Phone', value: phone },
+      { label: 'Address', value: address },
+      { label: 'Project', value: project },
+      { label: 'Preferred days', value: answers.days.join(', ') },
+      { label: 'Preferred times', value: answers.times.join(', ') }
+    ];
+    document.getElementById('summary').innerHTML = '<div class="summary-title">Your request</div>' +
+      rows.map(r => '<div class="summary-row"><span>' + r.label + '</span><strong>' + r.value + '</strong></div>').join('');
+  }
+
+  function goTo(step) {
+    document.getElementById('step-' + currentStep).classList.remove('active');
+    currentStep = step;
+    if (step === 4) buildSummary();
+    document.getElementById('step-' + currentStep).classList.add('active');
+    const pct = step >= TOTAL_STEPS ? 100 : Math.round(((step - 1) / TOTAL_STEPS) * 100);
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('step-label').textContent = 'Step ' + Math.min(step, TOTAL_STEPS) + ' of ' + TOTAL_STEPS;
+    document.getElementById('step-pct').textContent = pct + '%';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    const name = document.getElementById('f-name').value;
+    try {
+      const res = await fetch(e.target.action, { method: 'POST', body: new FormData(e.target), headers: { 'Accept': 'application/json' } });
+      if (res.ok) {
+        document.getElementById('step-4').classList.remove('active');
+        document.getElementById('step-success').classList.add('active');
+        document.getElementById('success-name').textContent = name.split(' ')[0];
+        document.getElementById('progress-fill').style.width = '100%';
+        document.getElementById('step-label').textContent = 'Confirmed';
+        document.getElementById('step-pct').textContent = '100%';
+      } else {
+        btn.disabled = false;
+        btn.textContent = 'Confirm My Estimate';
+        alert('Something went wrong. Please call us at (651) 321-2289');
+      }
+    } catch {
+      btn.disabled = false;
+      btn.textContent = 'Confirm My Estimate';
+      alert('Something went wrong. Please call us at (651) 321-2289');
+    }
+  }
+</script>
+</body>
+</html>
